@@ -1,0 +1,16 @@
+{
+    "version" : "2017-02-28",
+    "operation" : "UpdateItem",
+    "key" : {
+        "id": $util.dynamodb.toDynamoDBJson($ctx.args.albumId)
+    },
+    "update" : {
+        "expression" : "ADD #members :username",
+        "expressionNames" : {
+             "#members" : "members"
+         },
+        "expressionValues" : {
+             ":username" : $util.dynamodb.toStringSetJson([$ctx.args.username])
+        }    
+    }
+}

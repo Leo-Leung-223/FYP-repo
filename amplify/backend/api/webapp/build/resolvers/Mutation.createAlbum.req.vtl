@@ -1,0 +1,27 @@
+$util.qr($context.args.input.put("createdAt", $util.time.nowISO8601()))
+$util.qr($context.args.input.put("updatedAt", $util.time.nowISO8601()))
+$util.qr($context.args.input.put("__typename", "Album"))
+$util.qr($context.args.input.put("owner", $context.identity.username))
+## 1. NEW: Create an attributes variable that starts with all the contents of our input argument
+##    Then, add in a members property string set with our username as the only initial value
+##    Note: the lines below should start with # (two ##s is a comment in VTL, not one)
+#set($attributes = $util.dynamodb.toMapValues($context.arguments.input))
+#set($attributes.members = $util.dynamodb.toStringSet(["$context.identity.username"]))
+{
+  "version": "2017-02-28",
+  "operation": "PutItem",
+  "key": {
+      "id": {
+          "S": "$util.autoId()"
+    }
+  },
+  
+  ## 2. EDIT: use our $attributes value instead of $context.args.input
+  "attributeValues": $util.toJson($attributes),
+  "condition": {
+      "expression": "attribute_not_exists(#id)",
+      "expressionNames": {
+          "#id": "id"
+    }
+  }
+}

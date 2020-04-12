@@ -1,0 +1,228 @@
+{
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "fyp-dev-20191021034953-authRole",
+            "UnauthRoleArn": "arn:aws:iam::467005446488:role/fyp-dev-20191021034953-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::467005446488:role/fyp-dev-20191021034953-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "fyp-dev-20191021034953-deployment",
+            "UnauthRoleName": "fyp-dev-20191021034953-unauthRole",
+            "StackName": "fyp-dev-20191021034953",
+            "StackId": "arn:aws:cloudformation:us-east-1:467005446488:stack/fyp-dev-20191021034953/d6e12420-f3b5-11e9-97d3-1288d43a03c2",
+            "AmplifyAppId": "d25oasw32l9pu5"
+        },
+        "categories": {
+            "auth": {
+                "fypfe197b49": {}
+            },
+            "xr": {
+                "scene1": {
+                    "url": "https://sumerian.us-east-1.amazonaws.com/20180801/projects/Drafts-user%2Fryan_lee/release/authTokens?sceneId=0ef6a5810f964ec6bebdee28cde0055e.scene",
+                    "sceneId": "0ef6a5810f964ec6bebdee28cde0055e.scene",
+                    "region": "us-east-1",
+                    "projectName": "Drafts-user/ryan_lee"
+                },
+                "homepagescene": {
+                    "url": "https://sumerian.us-east-1.amazonaws.com/20180801/projects/Drafts-user%2Fryan_lee/release/authTokens?sceneId=95ebc374ca994e4da13171874dea578e.scene",
+                    "sceneId": "95ebc374ca994e4da13171874dea578e.scene",
+                    "region": "us-east-1",
+                    "projectName": "Drafts-user/ryan_lee"
+                }
+            }
+        }
+    },
+    "auth": {
+        "fyp4ef5ea9c": {
+            "service": "Cognito",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [],
+            "providerMetadata": {
+                "s3TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/auth/fyp4ef5ea9c-cloudformation-template.yml",
+                "logicalId": "authfyp4ef5ea9c"
+            },
+            "lastPushTimeStamp": "2020-03-13T15:04:45.150Z",
+            "output": {
+                "AppClientSecret": "78bsiva8tqgumtb9ehcbglptql2qvg2mh8im7va62gjskoakrsm",
+                "UserPoolId": "us-east-1_Jk6fDqRhH",
+                "AppClientIDWeb": "2h4363or7u2322k4bvtr1q82m",
+                "AppClientID": "34mu2clvcemfvpb04880hv156",
+                "IdentityPoolId": "us-east-1:fe653a29-c935-45ac-8d79-282400dfe9f1",
+                "IdentityPoolName": "fyp4ef5ea9c_identitypool_4ef5ea9c__dev",
+                "UserPoolName": "fyp4ef5ea9c_userpool_4ef5ea9c"
+            },
+            "lastPushDirHash": "PvXqlDfr3RjCsYaV8uXfOEsoI6A="
+        }
+    },
+    "api": {
+        "webapp": {
+            "service": "AppSync",
+            "providerPlugin": "awscloudformation",
+            "output": {
+                "GraphQLAPIIdOutput": "lfhm4cdl6jan5mk2sei45gsase",
+                "GraphQLAPIEndpointOutput": "https://w2l7vjr5krekxiabs4x6s4uzgi.appsync-api.us-east-1.amazonaws.com/graphql",
+                "authConfig": {
+                    "additionalAuthenticationProviders": [],
+                    "defaultAuthentication": {
+                        "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+                        "userPoolConfig": {
+                            "userPoolId": "authfyp4ef5ea9c"
+                        }
+                    }
+                }
+            },
+            "providerMetadata": {
+                "s3TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+                "logicalId": "apiwebapp"
+            },
+            "lastPushTimeStamp": "2020-03-13T15:04:45.152Z",
+            "lastPushDirHash": "qZxHE/GVNZqvtV/iLV670x4J8D0="
+        }
+    },
+    "function": {
+        "S3Trigger0f6928af": {
+            "service": "Lambda",
+            "providerPlugin": "awscloudformation",
+            "build": true,
+            "lastBuildTimeStamp": "2019-12-19T04:53:28.798Z",
+            "lastPackageTimeStamp": "2019-12-19T04:53:33.533Z",
+            "distZipFilename": "S3Trigger0f6928af-4b6459374946474a6131-build.zip",
+            "providerMetadata": {
+                "s3TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/function/S3Trigger0f6928af-cloudformation-template.json",
+                "logicalId": "functionS3Trigger0f6928af"
+            },
+            "lastPushTimeStamp": "2020-03-13T15:04:45.153Z",
+            "output": {
+                "Region": "us-east-1",
+                "Arn": "arn:aws:lambda:us-east-1:467005446488:function:S3_TRIGGER_NAME_PLACEHOLDER-dev",
+                "Name": "S3_TRIGGER_NAME_PLACEHOLDER-dev",
+                "LambdaExecutionRole": "S3_TRIGGER_NAME_PLACEHOLDERLambdaRole66924eb7-dev"
+            },
+            "lastPushDirHash": "wBXTeyeud8Z0JIPFRUNiNngsxdQ="
+        },
+        "RekognitionIndexFacesTriggerf6461acc": {
+            "service": "Lambda",
+            "providerPlugin": "awscloudformation",
+            "build": true,
+            "lastBuildTimeStamp": "2020-01-24T07:30:59.907Z",
+            "lastPackageTimeStamp": "2020-01-25T15:27:25.877Z",
+            "distZipFilename": "RekognitionIndexFacesTriggerf6461acc-785642624b3444335669-build.zip",
+            "providerMetadata": {
+                "s3TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/function/RekognitionIndexFacesTriggerf6461acc-cloudformation-template.json",
+                "logicalId": "functionRekognitionIndexFacesTriggerf6461acc"
+            },
+            "lastPushTimeStamp": "2020-03-13T15:04:45.155Z",
+            "output": {
+                "Region": "us-east-1",
+                "Arn": "arn:aws:lambda:us-east-1:467005446488:function:RekognitionIndexFacesTriggerf6461acc-dev",
+                "Name": "RekognitionIndexFacesTriggerf6461acc-dev",
+                "LambdaExecutionRole": "RekognitionIndexFacesTriggerf6461accLambdaRolef6461acc-dev"
+            },
+            "lastPushDirHash": "TtiDvrYPVT741SaV92Hw6hmf8As="
+        }
+    },
+    "storage": {
+        "s3669e25a2": {
+            "service": "S3",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "function",
+                    "resourceName": "S3Trigger0f6928af",
+                    "attributes": [
+                        "Name",
+                        "Arn",
+                        "LambdaExecutionRole"
+                    ]
+                },
+                {
+                    "category": "function",
+                    "resourceName": "RekognitionIndexFacesTriggerf6461acc",
+                    "attributes": [
+                        "Name",
+                        "Arn",
+                        "LambdaExecutionRole"
+                    ]
+                }
+            ],
+            "providerMetadata": {
+                "s3TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+                "logicalId": "storages3669e25a2"
+            },
+            "lastPushTimeStamp": "2020-03-13T15:04:45.157Z",
+            "output": {
+                "BucketName": "fypf40655550f734416ad5792927d59a53e-dev",
+                "Region": "us-east-1"
+            },
+            "lastPushDirHash": "6FmNihM8YkTI3E8kCuAHcT7h/nw="
+        }
+    },
+    "predictions": {
+        "identifyEntitiesd06785fa": {
+            "providerPlugin": "awscloudformation",
+            "service": "Rekognition",
+            "dependsOn": [
+                {
+                    "category": "function",
+                    "resourceName": "RekognitionIndexFacesTriggerf6461acc",
+                    "attributes": [
+                        "Name",
+                        "Arn",
+                        "LambdaExecutionRole"
+                    ]
+                },
+                {
+                    "category": "storage",
+                    "resourceName": "s3669e25a2",
+                    "attributes": [
+                        "BucketName"
+                    ]
+                }
+            ],
+            "identifyType": "identifyEntities",
+            "providerMetadata": {
+                "s3TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/predictions/identifyEntitiesd06785fa-template.json",
+                "logicalId": "predictionsidentifyEntitiesd06785fa"
+            },
+            "lastPushTimeStamp": "2020-03-13T15:04:45.158Z",
+            "output": {
+                "maxEntities": "50",
+                "celebrityDetectionEnabled": "true",
+                "region": "us-east-1",
+                "collectionId": "identifyEntitiesd06785fa-dev"
+            },
+            "lastPushDirHash": "RIZLVODZfpBz3/4944qGuGXtQ+g="
+        }
+    },
+    "xr": {
+        "scene1": {
+            "service": "Sumerian",
+            "providerPlugin": "awscloudformation",
+            "providerMetadata": {
+                "s3TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/xr/template.json",
+                "logicalId": "xrscene1"
+            },
+            "lastPushTimeStamp": "2020-03-13T15:04:45.160Z",
+            "output": {
+                "sceneId": "0ef6a5810f964ec6bebdee28cde0055e.scene",
+                "region": "us-east-1",
+                "projectName": "Drafts-user/ryan_lee",
+                "url": "https://sumerian.us-east-1.amazonaws.com/20180801/projects/Drafts-user%2Fryan_lee/release/authTokens?sceneId=0ef6a5810f964ec6bebdee28cde0055e.scene"
+            }
+        },
+        "homepagescene": {
+            "service": "Sumerian",
+            "providerPlugin": "awscloudformation",
+            "providerMetadata": {
+                "s3TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/xr/template.json",
+                "logicalId": "xrhomepagescene"
+            },
+            "lastPushTimeStamp": "2020-03-13T15:04:45.162Z",
+            "output": {
+                "sceneId": "95ebc374ca994e4da13171874dea578e.scene",
+                "region": "us-east-1",
+                "projectName": "Drafts-user/ryan_lee",
+                "url": "https://sumerian.us-east-1.amazonaws.com/20180801/projects/Drafts-user%2Fryan_lee/release/authTokens?sceneId=95ebc374ca994e4da13171874dea578e.scene"
+            }
+        }
+    }
+}

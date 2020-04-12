@@ -1,0 +1,562 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "Root stack for the Amplify AWS CloudFormation provider",
+	"Parameters": {
+		"DeploymentBucketName": {
+			"Description": "Name of the common deployment bucket provided by the parent stack",
+			"Type": "String",
+			"Default": "DeploymentBucket"
+		},
+		"AuthRoleName": {
+			"Type": "String",
+			"Default": "AuthRoleName"
+		},
+		"UnauthRoleName": {
+			"Type": "String",
+			"Default": "UnauthRoleName"
+		}
+	},
+	"Resources": {
+		"DeploymentBucket": {
+			"Type": "AWS::S3::Bucket",
+			"DeletionPolicy": "Retain",
+			"Properties": {
+				"BucketName": {
+					"Ref": "DeploymentBucketName"
+				}
+			}
+		},
+		"AuthRole": {
+			"Type": "AWS::IAM::Role",
+			"Properties": {
+				"RoleName": {
+					"Ref": "AuthRoleName"
+				},
+				"AssumeRolePolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Sid": "",
+							"Effect": "Deny",
+							"Principal": {
+								"Federated": "cognito-identity.amazonaws.com"
+							},
+							"Action": "sts:AssumeRoleWithWebIdentity"
+						}
+					]
+				}
+			}
+		},
+		"UnauthRole": {
+			"Type": "AWS::IAM::Role",
+			"Properties": {
+				"RoleName": {
+					"Ref": "UnauthRoleName"
+				},
+				"AssumeRolePolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Sid": "",
+							"Effect": "Deny",
+							"Principal": {
+								"Federated": "cognito-identity.amazonaws.com"
+							},
+							"Action": "sts:AssumeRoleWithWebIdentity"
+						}
+					]
+				}
+			}
+		},
+		"authfyp4ef5ea9c": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/auth/fyp4ef5ea9c-cloudformation-template.yml",
+				"Parameters": {
+					"identityPoolName": "fyp4ef5ea9c_identitypool_4ef5ea9c",
+					"allowUnauthenticatedIdentities": false,
+					"resourceNameTruncated": "fyp4ef5ea9c",
+					"userPoolName": "fyp4ef5ea9c_userpool_4ef5ea9c",
+					"autoVerifiedAttributes": "email",
+					"mfaConfiguration": "OFF",
+					"mfaTypes": "SMS Text Message",
+					"smsAuthenticationMessage": "Your authentication code is {####}",
+					"smsVerificationMessage": "Your verification code is {####}",
+					"emailVerificationSubject": "Your verification code",
+					"emailVerificationMessage": "Your verification code is {####}",
+					"defaultPasswordPolicy": false,
+					"passwordPolicyMinLength": 8,
+					"passwordPolicyCharacters": "",
+					"requiredAttributes": "email",
+					"userpoolClientGenerateSecret": true,
+					"userpoolClientRefreshTokenValidity": 30,
+					"userpoolClientWriteAttributes": "email",
+					"userpoolClientReadAttributes": "email",
+					"userpoolClientLambdaRole": "fyp4ef4ef5ea9c_userpoolclient_lambda_role",
+					"userpoolClientSetAttributes": false,
+					"resourceName": "fyp4ef5ea9c",
+					"authSelections": "identityPoolAndUserPool",
+					"authRoleArn": {
+						"Fn::GetAtt": [
+							"AuthRole",
+							"Arn"
+						]
+					},
+					"unauthRoleArn": {
+						"Fn::GetAtt": [
+							"UnauthRole",
+							"Arn"
+						]
+					},
+					"useDefault": "default",
+					"dependsOn": "",
+					"env": "dev"
+				}
+			}
+		},
+		"apiwebapp": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"Parameters": {
+					"CreateAPIKey": 0,
+					"AppSyncApiName": "webapp",
+					"DynamoDBBillingMode": "PAY_PER_REQUEST",
+					"DynamoDBEnableServerSideEncryption": "false",
+					"AuthCognitoUserPoolId": {
+						"Fn::GetAtt": [
+							"authfyp4ef5ea9c",
+							"Outputs.UserPoolId"
+						]
+					},
+					"S3DeploymentBucket": "fyp-dev-20191021034953-deployment",
+					"S3DeploymentRootKey": "amplify-appsync-files/2065b7e50b2be2ec1a204bb0c712b533e81bd8e1",
+					"env": "dev"
+				}
+			}
+		},
+		"functionS3Trigger0f6928af": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/function/S3Trigger0f6928af-cloudformation-template.json",
+				"Parameters": {
+					"env": "dev"
+				}
+			}
+		},
+		"functionRekognitionIndexFacesTriggerf6461acc": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/function/RekognitionIndexFacesTriggerf6461acc-cloudformation-template.json",
+				"Parameters": {
+					"resourceName": "identifyEntitiesd06785fa",
+					"env": "dev"
+				}
+			}
+		},
+		"storages3669e25a2": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"Parameters": {
+					"bucketName": "fypf40655550f734416ad5792927d59a53e",
+					"authPolicyName": "s3_amplify_669e25a2",
+					"unauthPolicyName": "s3_amplify_669e25a2",
+					"authRoleName": {
+						"Ref": "AuthRoleName"
+					},
+					"unauthRoleName": {
+						"Ref": "UnauthRoleName"
+					},
+					"selectedGuestPermissions": "s3:GetObject,s3:ListBucket",
+					"selectedAuthenticatedPermissions": "s3:PutObject,s3:GetObject,s3:ListBucket,s3:DeleteObject",
+					"s3PermissionsAuthenticatedPublic": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+					"s3PublicPolicy": "Public_policy_8282c7bd",
+					"s3PermissionsAuthenticatedUploads": "s3:PutObject",
+					"s3UploadsPolicy": "Uploads_policy_8282c7bd",
+					"s3PermissionsAuthenticatedProtected": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+					"s3ProtectedPolicy": "Protected_policy_2ecdb0c0",
+					"s3PermissionsAuthenticatedPrivate": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+					"s3PrivatePolicy": "Private_policy_2ecdb0c0",
+					"AuthenticatedAllowList": "ALLOW",
+					"s3ReadPolicy": "read_policy_8282c7bd",
+					"s3PermissionsGuestPublic": "s3:GetObject",
+					"s3PermissionsGuestUploads": "DISALLOW",
+					"GuestAllowList": "ALLOW",
+					"triggerFunction": "S3Trigger0f6928af",
+					"adminTriggerFunction": "RekognitionIndexFacesTriggerf6461acc",
+					"functionS3Trigger0f6928afName": {
+						"Fn::GetAtt": [
+							"functionS3Trigger0f6928af",
+							"Outputs.Name"
+						]
+					},
+					"functionS3Trigger0f6928afArn": {
+						"Fn::GetAtt": [
+							"functionS3Trigger0f6928af",
+							"Outputs.Arn"
+						]
+					},
+					"functionS3Trigger0f6928afLambdaExecutionRole": {
+						"Fn::GetAtt": [
+							"functionS3Trigger0f6928af",
+							"Outputs.LambdaExecutionRole"
+						]
+					},
+					"functionRekognitionIndexFacesTriggerf6461accName": {
+						"Fn::GetAtt": [
+							"functionRekognitionIndexFacesTriggerf6461acc",
+							"Outputs.Name"
+						]
+					},
+					"functionRekognitionIndexFacesTriggerf6461accArn": {
+						"Fn::GetAtt": [
+							"functionRekognitionIndexFacesTriggerf6461acc",
+							"Outputs.Arn"
+						]
+					},
+					"functionRekognitionIndexFacesTriggerf6461accLambdaExecutionRole": {
+						"Fn::GetAtt": [
+							"functionRekognitionIndexFacesTriggerf6461acc",
+							"Outputs.LambdaExecutionRole"
+						]
+					},
+					"env": "dev"
+				}
+			}
+		},
+		"predictionsidentifyEntitiesd06785fa": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/predictions/identifyEntitiesd06785fa-template.json",
+				"Parameters": {
+					"resourceName": "identifyEntitiesd06785fa",
+					"identifyPolicyName": "identifyPolicyd06785fa",
+					"authRoleName": {
+						"Ref": "AuthRoleName"
+					},
+					"unauthRoleName": {
+						"Ref": "UnauthRoleName"
+					},
+					"adminAuthProtected": "ALLOW",
+					"adminGuestProtected": "DISALLOW",
+					"identifyType": "identifyEntities",
+					"celebrityDetectionEnabled": true,
+					"adminTask": true,
+					"maxEntities": 50,
+					"folderPolicies": "app",
+					"access": "auth",
+					"functionRekognitionIndexFacesTriggerf6461accName": {
+						"Fn::GetAtt": [
+							"functionRekognitionIndexFacesTriggerf6461acc",
+							"Outputs.Name"
+						]
+					},
+					"functionRekognitionIndexFacesTriggerf6461accArn": {
+						"Fn::GetAtt": [
+							"functionRekognitionIndexFacesTriggerf6461acc",
+							"Outputs.Arn"
+						]
+					},
+					"functionRekognitionIndexFacesTriggerf6461accLambdaExecutionRole": {
+						"Fn::GetAtt": [
+							"functionRekognitionIndexFacesTriggerf6461acc",
+							"Outputs.LambdaExecutionRole"
+						]
+					},
+					"storages3669e25a2BucketName": {
+						"Fn::GetAtt": [
+							"storages3669e25a2",
+							"Outputs.BucketName"
+						]
+					},
+					"env": "dev"
+				}
+			}
+		},
+		"xrscene1": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/xr/template.json",
+				"Parameters": {
+					"AuthRoleName": {
+						"Ref": "AuthRoleName"
+					},
+					"UnauthRoleName": {
+						"Ref": "UnauthRoleName"
+					},
+					"AuthPolicyName": "sumerian-auth-fypQFQEM",
+					"UnauthPolicyName": "sumerian-unauth-fypQFQEM",
+					"url": "https://sumerian.us-east-1.amazonaws.com/20180801/projects/Drafts-user%2Fryan_lee/release/authTokens?sceneId=0ef6a5810f964ec6bebdee28cde0055e.scene",
+					"sceneId": "0ef6a5810f964ec6bebdee28cde0055e.scene",
+					"region": "us-east-1",
+					"projectName": "Drafts-user/ryan_lee",
+					"env": "dev"
+				}
+			}
+		},
+		"xrhomepagescene": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/xr/template.json",
+				"Parameters": {
+					"AuthRoleName": {
+						"Ref": "AuthRoleName"
+					},
+					"UnauthRoleName": {
+						"Ref": "UnauthRoleName"
+					},
+					"AuthPolicyName": "sumerian-auth-fypcMxCX",
+					"UnauthPolicyName": "sumerian-unauth-fypcMxCX",
+					"url": "https://sumerian.us-east-1.amazonaws.com/20180801/projects/Drafts-user%2Fryan_lee/release/authTokens?sceneId=95ebc374ca994e4da13171874dea578e.scene",
+					"sceneId": "95ebc374ca994e4da13171874dea578e.scene",
+					"region": "us-east-1",
+					"projectName": "Drafts-user/ryan_lee",
+					"env": "dev"
+				}
+			}
+		},
+		"UpdateRolesWithIDPFunction": {
+			"DependsOn": [
+				"AuthRole",
+				"UnauthRole",
+				"authfyp4ef5ea9c"
+			],
+			"Type": "AWS::Lambda::Function",
+			"Properties": {
+				"Code": {
+					"ZipFile": {
+						"Fn::Join": [
+							"\n",
+							[
+								"const response = require('cfn-response');",
+								"const aws = require('aws-sdk');",
+								"let responseData = {};",
+								"exports.handler = function(event, context) {",
+								"  try {",
+								"    let authRoleName = event.ResourceProperties.authRoleName;",
+								"    let unauthRoleName = event.ResourceProperties.unauthRoleName;",
+								"    let idpId = event.ResourceProperties.idpId;",
+								"    let promises = [];",
+								"    let authParamsJson = { 'Version': '2012-10-17','Statement': [{'Effect': 'Allow','Principal': {'Federated': 'cognito-identity.amazonaws.com'},'Action': 'sts:AssumeRoleWithWebIdentity','Condition': {'StringEquals': {'cognito-identity.amazonaws.com:aud': idpId},'ForAnyValue:StringLike': {'cognito-identity.amazonaws.com:amr': 'authenticated'}}}]};",
+								"    let unauthParamsJson = { 'Version': '2012-10-17','Statement': [{'Effect': 'Allow','Principal': {'Federated': 'cognito-identity.amazonaws.com'},'Action': 'sts:AssumeRoleWithWebIdentity','Condition': {'StringEquals': {'cognito-identity.amazonaws.com:aud': idpId},'ForAnyValue:StringLike': {'cognito-identity.amazonaws.com:amr': 'unauthenticated'}}}]};",
+								"    if (event.RequestType == 'Delete') {",
+								"        delete authParamsJson.Statement.Condition;",
+								"        delete unauthParamsJson.Statement.Condition;",
+								"        let authParams = { PolicyDocument: JSON.stringify(authParamsJson),RoleName: authRoleName};",
+								"        let unauthParams = {PolicyDocument: JSON.stringify(unauthParamsJson),RoleName: unauthRoleName};",
+								"        const iam = new aws.IAM({ apiVersion: '2010-05-08', region: event.ResourceProperties.region});",
+								"        promises.push(iam.updateAssumeRolePolicy(authParams).promise());",
+								"        promises.push(iam.updateAssumeRolePolicy(unauthParams).promise());",
+								"        Promise.all(promises)",
+								"         .then((res) => {",
+								"            console.log(\"delete response data\" + JSON.stringify(res));",
+								"            response.send(event, context, response.SUCCESS, {});",
+								"         });",
+								"    }",
+								"    if (event.RequestType == 'Update' || event.RequestType == 'Create') {",
+								"       const iam = new aws.IAM({ apiVersion: '2010-05-08', region: event.ResourceProperties.region});",
+								"        let authParams = { PolicyDocument: JSON.stringify(authParamsJson),RoleName: authRoleName};",
+								"        let unauthParams = {PolicyDocument: JSON.stringify(unauthParamsJson),RoleName: unauthRoleName};",
+								"        promises.push(iam.updateAssumeRolePolicy(authParams).promise());",
+								"        promises.push(iam.updateAssumeRolePolicy(unauthParams).promise());",
+								"        Promise.all(promises)",
+								"         .then((res) => {",
+								"            console.log(\"createORupdate\" + res);",
+								"            console.log(\"response data\" + JSON.stringify(res));",
+								"            response.send(event, context, response.SUCCESS, {});",
+								"         });",
+								"    }",
+								"  } catch(err) {",
+								"       console.log(err.stack);",
+								"       responseData = {Error: err};",
+								"       response.send(event, context, response.FAILED, responseData);",
+								"       throw err;",
+								"  }",
+								"};"
+							]
+						]
+					}
+				},
+				"Handler": "index.handler",
+				"Runtime": "nodejs10.x",
+				"Timeout": "300",
+				"Role": {
+					"Fn::GetAtt": [
+						"UpdateRolesWithIDPFunctionRole",
+						"Arn"
+					]
+				}
+			}
+		},
+		"UpdateRolesWithIDPFunctionOutputs": {
+			"Type": "Custom::LambdaCallout",
+			"Properties": {
+				"ServiceToken": {
+					"Fn::GetAtt": [
+						"UpdateRolesWithIDPFunction",
+						"Arn"
+					]
+				},
+				"region": {
+					"Ref": "AWS::Region"
+				},
+				"idpId": {
+					"Fn::GetAtt": [
+						"authfyp4ef5ea9c",
+						"Outputs.IdentityPoolId"
+					]
+				},
+				"authRoleName": {
+					"Ref": "AuthRoleName"
+				},
+				"unauthRoleName": {
+					"Ref": "UnauthRoleName"
+				}
+			}
+		},
+		"UpdateRolesWithIDPFunctionRole": {
+			"Type": "AWS::IAM::Role",
+			"Properties": {
+				"RoleName": {
+					"Fn::Join": [
+						"",
+						[
+							{
+								"Ref": "AuthRoleName"
+							},
+							"-idp"
+						]
+					]
+				},
+				"AssumeRolePolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Principal": {
+								"Service": [
+									"lambda.amazonaws.com"
+								]
+							},
+							"Action": [
+								"sts:AssumeRole"
+							]
+						}
+					]
+				},
+				"Policies": [
+					{
+						"PolicyName": "UpdateRolesWithIDPFunctionPolicy",
+						"PolicyDocument": {
+							"Version": "2012-10-17",
+							"Statement": [
+								{
+									"Effect": "Allow",
+									"Action": [
+										"logs:CreateLogGroup",
+										"logs:CreateLogStream",
+										"logs:PutLogEvents"
+									],
+									"Resource": "arn:aws:logs:*:*:*"
+								},
+								{
+									"Effect": "Allow",
+									"Action": "iam:UpdateAssumeRolePolicy",
+									"Resource": {
+										"Fn::GetAtt": [
+											"AuthRole",
+											"Arn"
+										]
+									}
+								},
+								{
+									"Effect": "Allow",
+									"Action": "iam:UpdateAssumeRolePolicy",
+									"Resource": {
+										"Fn::GetAtt": [
+											"UnauthRole",
+											"Arn"
+										]
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		}
+	},
+	"Outputs": {
+		"Region": {
+			"Description": "CloudFormation provider root stack Region",
+			"Value": {
+				"Ref": "AWS::Region"
+			},
+			"Export": {
+				"Name": {
+					"Fn::Sub": "${AWS::StackName}-Region"
+				}
+			}
+		},
+		"StackName": {
+			"Description": "CloudFormation provider root stack ID",
+			"Value": {
+				"Ref": "AWS::StackName"
+			},
+			"Export": {
+				"Name": {
+					"Fn::Sub": "${AWS::StackName}-StackName"
+				}
+			}
+		},
+		"StackId": {
+			"Description": "CloudFormation provider root stack name",
+			"Value": {
+				"Ref": "AWS::StackId"
+			},
+			"Export": {
+				"Name": {
+					"Fn::Sub": "${AWS::StackName}-StackId"
+				}
+			}
+		},
+		"DeploymentBucketName": {
+			"Description": "CloudFormation provider root stack deployment bucket name",
+			"Value": {
+				"Ref": "DeploymentBucketName"
+			},
+			"Export": {
+				"Name": {
+					"Fn::Sub": "${AWS::StackName}-DeploymentBucketName"
+				}
+			}
+		},
+		"AuthRoleArn": {
+			"Value": {
+				"Fn::GetAtt": [
+					"AuthRole",
+					"Arn"
+				]
+			}
+		},
+		"UnauthRoleArn": {
+			"Value": {
+				"Fn::GetAtt": [
+					"UnauthRole",
+					"Arn"
+				]
+			}
+		},
+		"AuthRoleName": {
+			"Value": {
+				"Ref": "AuthRole"
+			}
+		},
+		"UnauthRoleName": {
+			"Value": {
+				"Ref": "UnauthRole"
+			}
+		}
+	}
+}

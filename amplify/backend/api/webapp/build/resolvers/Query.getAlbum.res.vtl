@@ -1,0 +1,5 @@
+#if ($context.result.members.contains($context.identity.username))
+    $util.toJson($context.result)
+#else
+  $util.unauthorized()
+#end

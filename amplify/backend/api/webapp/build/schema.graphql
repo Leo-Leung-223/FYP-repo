@@ -1,0 +1,326 @@
+type Album {
+  id: ID!
+  name: String!
+  owner: String!
+  photos(filter: ModelPhotoFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelPhotoConnection
+  members: [String!]
+}
+
+type Photo {
+  id: ID!
+  album: Album
+  bucket: String!
+  fullsize: PhotoS3Info!
+  thumbnail: PhotoS3Info!
+  userName: [String]
+  labels: [String]
+}
+
+type PhotoS3Info {
+  key: String!
+  width: Int!
+  height: Int!
+  userName: [String]
+}
+
+input CreateAlbumInput {
+  name: String!
+}
+
+type Mutation {
+  addUsernameToAlbum(username: String!, albumId: String!): Album
+  createAlbum(input: CreateAlbumInput!, condition: ModelAlbumConditionInput): Album
+  updateAlbum(input: UpdateAlbumInput!, condition: ModelAlbumConditionInput): Album
+  deleteAlbum(input: DeleteAlbumInput!, condition: ModelAlbumConditionInput): Album
+  createPhoto(input: CreatePhotoInput!, condition: ModelPhotoConditionInput): Photo
+  updatePhoto(input: UpdatePhotoInput!, condition: ModelPhotoConditionInput): Photo
+  deletePhoto(input: DeletePhotoInput!, condition: ModelPhotoConditionInput): Photo
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelAlbumConnection {
+  items: [Album]
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelAlbumFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  owner: ModelStringInput
+  members: ModelStringInput
+  and: [ModelAlbumFilterInput]
+  or: [ModelAlbumFilterInput]
+  not: ModelAlbumFilterInput
+}
+
+type Query {
+  getAlbum(id: ID!): Album
+  listAlbums(filter: ModelAlbumFilterInput, limit: Int, nextToken: String): ModelAlbumConnection
+  getPhoto(id: ID!): Photo
+  listPhotos(filter: ModelPhotoFilterInput, limit: Int, nextToken: String): ModelPhotoConnection
+  searchPhotos(filter: SearchablePhotoFilterInput, sort: SearchablePhotoSortInput, limit: Int, nextToken: String): SearchablePhotoConnection
+}
+
+input UpdateAlbumInput {
+  id: ID!
+  name: String
+  owner: String
+  members: [String!]
+}
+
+input DeleteAlbumInput {
+  id: ID
+}
+
+input ModelAlbumConditionInput {
+  name: ModelStringInput
+  owner: ModelStringInput
+  members: ModelStringInput
+  and: [ModelAlbumConditionInput]
+  or: [ModelAlbumConditionInput]
+  not: ModelAlbumConditionInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+type Subscription {
+  onCreateAlbum: Album @aws_subscribe(mutations: ["createAlbum"])
+  onUpdateAlbum: Album @aws_subscribe(mutations: ["updateAlbum"])
+  onDeleteAlbum: Album @aws_subscribe(mutations: ["deleteAlbum"])
+  onCreatePhoto: Photo @aws_subscribe(mutations: ["createPhoto"])
+  onUpdatePhoto: Photo @aws_subscribe(mutations: ["updatePhoto"])
+  onDeletePhoto: Photo @aws_subscribe(mutations: ["deletePhoto"])
+}
+
+input PhotoS3InfoInput {
+  key: String!
+  width: Int!
+  height: Int!
+  userName: [String]
+}
+
+type ModelPhotoConnection {
+  items: [Photo]
+  nextToken: String
+}
+
+input ModelPhotoFilterInput {
+  id: ModelIDInput
+  bucket: ModelStringInput
+  userName: ModelStringInput
+  labels: ModelStringInput
+  and: [ModelPhotoFilterInput]
+  or: [ModelPhotoFilterInput]
+  not: ModelPhotoFilterInput
+}
+
+input CreatePhotoInput {
+  id: ID
+  bucket: String!
+  fullsize: PhotoS3InfoInput!
+  thumbnail: PhotoS3InfoInput!
+  userName: [String]
+  labels: [String]
+  photoAlbumId: ID
+}
+
+input UpdatePhotoInput {
+  id: ID!
+  bucket: String
+  fullsize: PhotoS3InfoInput
+  thumbnail: PhotoS3InfoInput
+  userName: [String]
+  labels: [String]
+  photoAlbumId: ID
+}
+
+input DeletePhotoInput {
+  id: ID
+}
+
+input ModelPhotoConditionInput {
+  bucket: ModelStringInput
+  userName: ModelStringInput
+  labels: ModelStringInput
+  and: [ModelPhotoConditionInput]
+  or: [ModelPhotoConditionInput]
+  not: ModelPhotoConditionInput
+}
+
+input SearchableStringFilterInput {
+  ne: String
+  gt: String
+  lt: String
+  gte: String
+  lte: String
+  eq: String
+  match: String
+  matchPhrase: String
+  matchPhrasePrefix: String
+  multiMatch: String
+  exists: Boolean
+  wildcard: String
+  regexp: String
+}
+
+input SearchableIDFilterInput {
+  ne: ID
+  gt: ID
+  lt: ID
+  gte: ID
+  lte: ID
+  eq: ID
+  match: ID
+  matchPhrase: ID
+  matchPhrasePrefix: ID
+  multiMatch: ID
+  exists: Boolean
+  wildcard: ID
+  regexp: ID
+}
+
+input SearchableIntFilterInput {
+  ne: Int
+  gt: Int
+  lt: Int
+  gte: Int
+  lte: Int
+  eq: Int
+  range: [Int]
+}
+
+input SearchableFloatFilterInput {
+  ne: Float
+  gt: Float
+  lt: Float
+  gte: Float
+  lte: Float
+  eq: Float
+  range: [Float]
+}
+
+input SearchableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input SearchablePhotoFilterInput {
+  id: SearchableIDFilterInput
+  bucket: SearchableStringFilterInput
+  userName: SearchableStringFilterInput
+  labels: SearchableStringFilterInput
+  and: [SearchablePhotoFilterInput]
+  or: [SearchablePhotoFilterInput]
+  not: SearchablePhotoFilterInput
+}
+
+enum SearchableSortDirection {
+  asc
+  desc
+}
+
+enum SearchablePhotoSortableFields {
+  id
+  bucket
+  userName
+  labels
+}
+
+input SearchablePhotoSortInput {
+  field: SearchablePhotoSortableFields
+  direction: SearchableSortDirection
+}
+
+type SearchablePhotoConnection {
+  items: [Photo]
+  nextToken: String
+  total: Int
+}

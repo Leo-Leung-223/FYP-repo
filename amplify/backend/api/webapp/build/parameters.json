@@ -1,0 +1,14 @@
+{
+    "CreateAPIKey": 0,
+    "AppSyncApiName": "webapp",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authfyp4ef5ea9c",
+            "Outputs.UserPoolId"
+        ]
+    },
+    "S3DeploymentBucket": "fyp-dev-20191021034953-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/2065b7e50b2be2ec1a204bb0c712b533e81bd8e1"
+}

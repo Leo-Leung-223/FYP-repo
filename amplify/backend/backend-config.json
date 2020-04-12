@@ -1,0 +1,99 @@
+{
+	"auth": {
+		"fyp4ef5ea9c": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	},
+	"api": {
+		"webapp": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
+						"userPoolConfig": {
+							"userPoolId": "authfyp4ef5ea9c"
+						}
+					}
+				}
+			}
+		}
+	},
+	"function": {
+		"S3Trigger0f6928af": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true
+		},
+		"RekognitionIndexFacesTriggerf6461acc": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true
+		}
+	},
+	"storage": {
+		"s3669e25a2": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "S3Trigger0f6928af",
+					"attributes": [
+						"Name",
+						"Arn",
+						"LambdaExecutionRole"
+					]
+				},
+				{
+					"category": "function",
+					"resourceName": "RekognitionIndexFacesTriggerf6461acc",
+					"attributes": [
+						"Name",
+						"Arn",
+						"LambdaExecutionRole"
+					]
+				}
+			]
+		}
+	},
+	"predictions": {
+		"identifyEntitiesd06785fa": {
+			"providerPlugin": "awscloudformation",
+			"service": "Rekognition",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "RekognitionIndexFacesTriggerf6461acc",
+					"attributes": [
+						"Name",
+						"Arn",
+						"LambdaExecutionRole"
+					]
+				},
+				{
+					"category": "storage",
+					"resourceName": "s3669e25a2",
+					"attributes": [
+						"BucketName"
+					]
+				}
+			],
+			"identifyType": "identifyEntities"
+		}
+	},
+	"xr": {
+		"scene1": {
+			"service": "Sumerian",
+			"providerPlugin": "awscloudformation"
+		},
+		"homepagescene": {
+			"service": "Sumerian",
+			"providerPlugin": "awscloudformation"
+		}
+	}
+}
