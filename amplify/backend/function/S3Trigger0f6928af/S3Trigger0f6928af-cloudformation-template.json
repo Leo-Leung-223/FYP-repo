@@ -69,7 +69,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "fyp-dev-20191021034953-deployment",
-					"S3Key": "amplify-builds/S3Trigger0f6928af-4b6459374946474a6131-build.zip"
+					"S3Key": "amplify-builds/S3Trigger0f6928af-30356a2b467355413343-build.zip"
 				}
 			}
 		},

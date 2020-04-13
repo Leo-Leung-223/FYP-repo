@@ -87,10 +87,6 @@
 		}
 	},
 	"xr": {
-		"scene1": {
-			"service": "Sumerian",
-			"providerPlugin": "awscloudformation"
-		},
 		"homepagescene": {
 			"service": "Sumerian",
 			"providerPlugin": "awscloudformation"
