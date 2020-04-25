@@ -20,8 +20,8 @@ AWSCLOUDFORMATIONCONFIG="{\
 }"
 
 AMPLIFY="{\
-\"projectName\":\"sample_app\",\
-\"envName\":\"prod\",\
+\"projectName\":\"fyp\",\
+\"envName\":\"dev\",\
 \"defaultEditor\":\"code\"\,
 
 }"
