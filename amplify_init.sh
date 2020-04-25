@@ -12,19 +12,31 @@ aws configure set aws_access_key_id $access_key_id
 aws configure set aws_secret_access_key $secret_access_key
 aws configure set default.region us-east-1
 
-#Amplify setting
+REACTCONFIG="{\
+\"SourceDir\":\"src\",\
+\"DistributionDir\":\"build\",\
+\"BuildCommand\":\"npm run-script build\",\
+\"StartCommand\":\"npm run-script start\"\
+}"
 AWSCLOUDFORMATIONCONFIG="{\
 \"configLevel\":\"project\",\
 \"useProfile\":true,\
-\"profileName\":\"default\"\
+\"profileName\":\"default\",\
+\"region\":\"us-east-1\"\
 }"
 
 AMPLIFY="{\
-\"projectName\":\"fyp\",\
+\"projectName\":\"webapp\",\
 \"envName\":\"dev\",\
-\"defaultEditor\":\"code\"\,
-
+\"defaultEditor\":\"code\"\
 }"
+
+FRONTEND="{\
+\"frontend\":\"javascript\",\
+\"framework\":\"react\",\
+\"config\":$REACTCONFIG\
+}"
+
 PROVIDERS="{\
 \"awscloudformation\":$AWSCLOUDFORMATIONCONFIG\
 }"
