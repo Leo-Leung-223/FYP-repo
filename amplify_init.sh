@@ -44,5 +44,6 @@ PROVIDERS="{\
 # Amplify init
 amplify init \
 --amplify $AMPLIFY \
+--frontend $FRONTEND \
 --providers $PROVIDERS \
 --yes
