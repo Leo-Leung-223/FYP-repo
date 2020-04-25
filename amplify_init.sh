@@ -1,4 +1,4 @@
-#!/bin/bash
+#/bin/bash
 # get access key through the system manager
 access_key_id=$(aws ssm get-parameters --names '/AmplifyCICD/AccessKeyID' --query Parameters[].Value --output text)
 secret_access_key=$(aws ssm get-parameters --names '/AmplifyCICD/SecretAccessKey' --query Parameters[].Value --output text)
