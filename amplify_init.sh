@@ -28,7 +28,8 @@ AWSCLOUDFORMATIONCONFIG="{\
 AMPLIFY="{\
 \"projectName\":\"webapp\",\
 \"envName\":\"dev\",\
-\"defaultEditor\":\"code\"\
+\"defaultEditor\":\"code\"\,
+\"homepagescene\":\"sumerian_exports_0ef6a5810f964ec6bebdee28cde0055e.json\"\
 }"
 
 FRONTEND="{\
