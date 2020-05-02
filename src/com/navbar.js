@@ -27,7 +27,7 @@ function Navbar() {
                <li><a href="upload">Photosharing</a></li>
                <li><a href="temp">Temp</a></li>
                <li><a href="#" onClick={SignOut} class="profile">Sign Out</a></li>
-               <li><a href="#" class="profile">User: {username}</a></li>
+               <li><a href="profile" class="profile">User: {username}</a></li>
                <li><a href="profile">profile</a></li>
           </ul>
         );

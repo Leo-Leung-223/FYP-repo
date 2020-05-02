@@ -44,6 +44,7 @@ class App extends Component {
 
 export default withAuthenticator(App,  {
   signUpConfig: {
-    signUpFields: [{ label:"Company",key: 'custom:CompanyName', required: true },{ label:"Url",key: 'custom:Url', required: true },{ label:"Position",key: 'custom:Position', required: true }]
+    signUpFields: [{ label:"Company",key: 'custom:CompanyName', required: true },{ label:"Url",key: 'custom:Url', required: true },{ label:"Position",key: 'custom:Position', required: true },
+    { label:"FullName",key: 'custom:FullName', required: true }]
   }
 },{includeGreetings: true});

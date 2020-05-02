@@ -33,28 +33,6 @@
 			"service": "Lambda",
 			"providerPlugin": "awscloudformation",
 			"build": true
-		},
-		"fyp4aa03238": {
-			"service": "Lambda",
-			"providerPlugin": "awscloudformation",
-			"build": true,
-			"dependsOn": [
-				{
-					"category": "storage",
-					"resourceName": "dynamoc8d27104",
-					"attributes": [
-						"Name",
-						"Arn"
-					]
-				},
-				{
-					"category": "auth",
-					"resourceName": "fyp4ef5ea9c",
-					"attributes": [
-						"UserPoolId"
-					]
-				}
-			]
 		}
 	},
 	"storage": {
@@ -81,10 +59,6 @@
 					]
 				}
 			]
-		},
-		"dynamoc8d27104": {
-			"service": "DynamoDB",
-			"providerPlugin": "awscloudformation"
 		}
 	},
 	"predictions": {
