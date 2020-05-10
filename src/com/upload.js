@@ -1,13 +1,12 @@
-import React, { Component,useState } from 'react';
+import React, { Component } from 'react';
 import aws_exports from '../aws-exports';
 import { withAuthenticator } from 'aws-amplify-react';
 import { Connect } from 'aws-amplify-react';
 import { S3Image } from 'aws-amplify-react';
-import Amplify, { API, graphqlOperation, Storage, } from 'aws-amplify';
+import Amplify, { API, graphqlOperation, Storage } from 'aws-amplify';
 import { Divider, Form, Grid, Header, Icon, Input, List, Segment } from 'semantic-ui-react';
 import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom';
 import {v4 as uuid} from 'uuid';
-import * as queries from '../graphql/queries';
 
 Amplify.configure(aws_exports);
 
@@ -218,9 +217,6 @@ class AlbumDetails extends Component {
           <Segment basic>
             <AddUsernameToAlbum albumId={this.props.album.id} />
           </Segment>
-          <Segment basic>
-            <getPhotosForLabel />
-          </Segment>
         </Segment.Group>
 
         <S3ImageUpload albumId={this.props.album.id}/>        
@@ -284,48 +280,6 @@ class S3ImageUpload extends React.Component {
   }
 }
 
-const Search = () => {
-  const [photos, setPhotos] = useState([])
-  const [username, setUsername] = useState('')
-  const [hasResults, setHasResults] = useState(false)
-  const [searched, setSearched] = useState(false)
-
-  const getPhotosForLabel = async (e) => {
-      setPhotos([])
-      const result = await API.graphql(graphqlOperation(queries.listPhotos, { filter: {userName: { contains: username }}}));
-      if (result.data.listPhotos.items.length !== 0) {
-          setHasResults(result.data.listPhotos.items.length > 0)
-          setPhotos(p => p.concat(result.data.listPhotos.items))
-          console.log(result.data.listPhotos.items)
-      }
-      setSearched(true)
-  }
-  const NoResults = () => {
-    return !searched
-      ? ''
-      : <Header as='h4' color='grey'>No photos found matching '{username}'</Header>
-  }
-
-  return (
-      <Segment>
-        <Input
-          type='text'
-          placeholder='Search for photos'
-          icon='search'
-          iconPosition='left'
-          action={{ content: 'Search', onClick: getPhotosForLabel }}
-          name='userName'
-          value={username}
-          onChange={(e) => { setUsername(e.target.value); setSearched(false);} }
-        />
-        {
-            hasResults
-            ? <PhotosList photos={photos} />
-            : <NoResults />
-        }
-      </Segment>
-  );
-}
 
 class PhotosList extends React.Component {
   photoItems() {
@@ -347,7 +301,6 @@ class PhotosList extends React.Component {
     );
   }
 }
-
 
 
 class AddUsernameToAlbum extends Component {
@@ -409,6 +362,7 @@ class App extends Component {
           <Grid.Column>
             <Route path="/upload" exact component={NewAlbum}/>
             <Route path="/upload" exact component={AlbumsListLoader}/>
+
             <Route
               path="/albums/:albumId"
               render={ () => <div><NavLink to='/upload'>Back to Albums list</NavLink></div> }
@@ -417,7 +371,6 @@ class App extends Component {
               path="/albums/:albumId"
               render={ props => <AlbumDetailsLoader id={props.match.params.albumId}/> }
             />
-            <Route path="/albums/:albumId" exact component={Search}/>
           </Grid.Column>
         </Grid>
       </Router>
@@ -425,4 +378,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withAuthenticator(App, { includeGreetings: true });

@@ -150,12 +150,16 @@ Resources:
         - Name: Position
           Required: false
           Mutable: true
-          AttributeDataType: String
+          AttributeDataType: String  
         
+
         - Name: FullName 
           Required: false
           Mutable: true
-          AttributeDataType: String          
+          AttributeDataType: String            
+            
+          
+          
       
       
       

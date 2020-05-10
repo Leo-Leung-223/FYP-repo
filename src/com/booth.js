@@ -105,7 +105,6 @@ class Booth extends React.Component {
     render() {
         return (
           <div>
-          <Sumerian />  
           </div>
         )
     }

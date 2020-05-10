@@ -21,6 +21,14 @@ const awsmobile = {
                     "projectName": "Drafts-user/ryan_lee",
                     "url": "https://sumerian.us-east-1.amazonaws.com/20180801/projects/Drafts-user%2Fryan_lee/release/authTokens?sceneId=95ebc374ca994e4da13171874dea578e.scene"
                 }
+            },
+            "homepagescene2": {
+                "sceneConfig": {
+                    "sceneId": "8886b90f1c9d40e1a94e94d6fb276c98.scene",
+                    "region": "us-east-1",
+                    "projectName": "Drafts-user/ryan_lee",
+                    "url": "https://sumerian.us-east-1.amazonaws.com/20180801/projects/Drafts-user%2Fryan_lee/release/authTokens?sceneId=8886b90f1c9d40e1a94e94d6fb276c98.scene"
+                }
             }
         }
     },

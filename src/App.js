@@ -5,7 +5,7 @@ import Nav from "./com/navbar";
 import Profile from "./com/profile";
 import Upload from "./com/upload";
 import QRcode from "./com/qrcode";
-import temp from "./com/temp.js";
+import lex from "./com/buildlex.js";
 import React,{ useState, Component } from 'react';
 import {BrowserRouter as Router, Route, NavLink, Switch} from 'react-router-dom';
 import { Divider, Form, Grid, Header, Input, List, Segment } from 'semantic-ui-react';
@@ -17,6 +17,8 @@ import Amplify, { API, Auth, graphqlOperation, Storage ,XR} from 'aws-amplify';
 import Predictions, { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
 import aws_exports from './aws-exports';
 import './App.css';
+import { Navbar, BSpan } from '@bootstrap-4-react';
+
 Amplify.configure(aws_exports);
 Amplify.addPluggable(new AmazonAIPredictionsProvider());
 
@@ -35,7 +37,7 @@ class App extends Component {
         <Route path='/workshop' component={Workshop} />
         <Route path='/upload' component={Upload} />
         <Route path='/profile' component={Profile} />
-        <Route path='/temp' component={temp} />
+        <Route path='/buildlex' component={lex} />
       </Router>
     );
   }

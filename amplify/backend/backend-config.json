@@ -90,6 +90,10 @@
 		"homepagescene": {
 			"service": "Sumerian",
 			"providerPlugin": "awscloudformation"
+		},
+		"homepagescene2": {
+			"service": "Sumerian",
+			"providerPlugin": "awscloudformation"
 		}
 	}
 }

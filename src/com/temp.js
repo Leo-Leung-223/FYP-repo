@@ -40,7 +40,7 @@ class temp extends Component {
         <Grid padded>
           <Grid.Column>
            <div><p>temp</p></div>
-           <p>Hello, {formatName(user)}</p>
+           <p>Helloa, {formatName(user)}</p>
           </Grid.Column>
         </Grid>
       </Router>

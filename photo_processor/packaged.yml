@@ -60,7 +60,7 @@ Resources:
   PhotoProcessorFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://photoalbum1224567/64d2fc717e65264030ddacdfd3989d8b
+      CodeUri: s3://photoalbum1224567/eae53599d3bfe6725d635d12381fb775
       Handler: app.lambda_handler
       Role:
         Fn::GetAtt:

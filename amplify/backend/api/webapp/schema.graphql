@@ -30,4 +30,4 @@ input CreateAlbumInput {
 
 type Mutation {
   addUsernameToAlbum(username: String!, albumId: String!): Album
-}  
+}

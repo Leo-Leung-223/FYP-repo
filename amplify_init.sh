@@ -5,7 +5,7 @@ IFS='|'
 access_key_id=$(aws ssm get-parameters --names '/AmplifyCICD/AccessKeyID' --query Parameters[].Value --output text)
 secret_access_key=$(aws ssm get-parameters --names '/AmplifyCICD/SecretAccessKey' --query Parameters[].Value --output text)
 
-
+homepagescene=
 
 # AWS Profile setting
 aws configure set aws_access_key_id $access_key_id

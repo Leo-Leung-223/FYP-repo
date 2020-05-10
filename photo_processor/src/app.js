@@ -145,8 +145,10 @@ async function processRecord(record) {
   const metadata = await getMetadata(bucketName, key);
   const sizes = await resize(bucketName, key);
   const labelNames = await getLabelNames(bucketName, sizes.fullsize.key);
-  console.log(username,username)
-  console.log(labelNames, labelNames)
+  const username = await getUserNames(bucketName, sizes.fullsize.key);
+
+  console.log(username,)
+  console.log(labelNames)
   const id = uuidv4();
   const item = {
     id: id,

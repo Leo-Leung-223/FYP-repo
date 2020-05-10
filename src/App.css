@@ -27,6 +27,18 @@
   margin-right: auto;
   width: 30%;
 }
+#manual{
+  position: absolute;
+  top: 0%;
+  left: 70%;
+  width: 300px;
+  height: 200px;
+  font-family: "Gill Sans", sans-serif;
+}
+#sucess-alert{
+  
+  visibility:hidden;
+}
 
 ul {
   list-style-type: none;
