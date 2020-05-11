@@ -13,6 +13,7 @@ aws configure set default.region us-east-1
 
 echo $homepagescene2
 
+chmod 777 ./sumerian_exports_0ef6a5810f964ec6bebdee28cde0055e.json
 
 
 REACTCONFIG="{\
