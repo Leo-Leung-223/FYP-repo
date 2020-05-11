@@ -26,9 +26,9 @@ AWSCLOUDFORMATIONCONFIG="{\
 }"
 
 AMPLIFY="{\
-\"projectName\":\"webapp\",\
-\"envName\":\"dev\",\
-\"defaultEditor\":\"code\"\
+\"projectName\":\"fyp-demo\",\
+\"defaultEditor\":\"code\"\,\
+\"envName\":\"dev\"\
 }"
 
 FRONTEND="{\
