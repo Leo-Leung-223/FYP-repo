@@ -17,7 +17,7 @@ import Amplify, { API, Auth, graphqlOperation, Storage ,XR} from 'aws-amplify';
 import Predictions, { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
 import aws_exports from './aws-exports';
 import './App.css';
-import { Navbar, BSpan } from '@bootstrap-4-react';
+// import { Navbar, BSpan } from '@bootstrap-4-react';
 
 Amplify.configure(aws_exports);
 Amplify.addPluggable(new AmazonAIPredictionsProvider());

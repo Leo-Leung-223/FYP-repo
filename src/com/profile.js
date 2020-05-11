@@ -27,7 +27,6 @@ const username = localStorage.getItem("CognitoIdentityServiceProvider.2h4363or7u
 
 // var data=JSON.parse(username)
 
-
 class Profile extends Component {
     state = {
         imageName: "",
