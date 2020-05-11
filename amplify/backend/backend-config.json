@@ -85,15 +85,15 @@
 			],
 			"identifyType": "identifyEntities"
 		}
-	},
-	"xr": {
-		"homepagescene": {
-			"service": "Sumerian",
-			"providerPlugin": "awscloudformation"
-		},
-		"homepagescene2": {
-			"service": "Sumerian",
-			"providerPlugin": "awscloudformation"
-		}
 	}
-}
+// 	"xr": {
+// 		"homepagescene": {
+// 			"service": "Sumerian",
+// 			"providerPlugin": "awscloudformation"
+// 		},
+// 		"homepagescene2": {
+// 			"service": "Sumerian",
+// 			"providerPlugin": "awscloudformation"
+// 		}
+// 	}
+// }
