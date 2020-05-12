@@ -47,7 +47,8 @@ PROVIDERS="{\
 
 # Amplify init
 amplify init \
---amplify $AMPLIFY $homepagescene\
+--amplify $AMPLIFY \
+./sumerian_exports_0ef6a5810f964ec6bebdee28cde0055e.json
 --frontend $FRONTEND \
 --providers $PROVIDERS \
 --yes
