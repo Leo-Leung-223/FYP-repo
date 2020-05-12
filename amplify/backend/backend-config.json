@@ -86,5 +86,10 @@
 			"identifyType": "identifyEntities"
 		}
 	},
-	"xr": {}
+	"xr": {
+		"homepagescene": {
+			"service": "Sumerian",
+			"providerPlugin": "awscloudformation"
+		}
+	}
 }

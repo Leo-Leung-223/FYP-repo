@@ -6,14 +6,13 @@ access_key_id=$(aws ssm get-parameters --names '/AmplifyCICD/AccessKeyID' --quer
 secret_access_key=$(aws ssm get-parameters --names '/AmplifyCICD/SecretAccessKey' --query Parameters[].Value --output text)
 chmod 777 ./sumerian_exports_0ef6a5810f964ec6bebdee28cde0055e.json
 
-homepagescene2=$('./sumerian_exports_0ef6a5810f964ec6bebdee28cde0055e.json')
+export homepagescene=./sumerian_exports_0ef6a5810f964ec6bebdee28cde0055e.json
 
 # AWS Profile setting
 aws configure set aws_access_key_id $access_key_id
 aws configure set aws_secret_access_key $secret_access_key
 aws configure set default.region us-east-1
 
-echo $homepagescene2
 
 
 
@@ -48,7 +47,7 @@ PROVIDERS="{\
 
 # Amplify init
 amplify init \
---amplify $AMPLIFY \
+--amplify $AMPLIFY $homepagescene\
 --frontend $FRONTEND \
 --providers $PROVIDERS \
 --yes

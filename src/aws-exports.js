@@ -12,6 +12,18 @@ const awsmobile = {
     "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
     "aws_user_files_s3_bucket": "fypf40655550f734416ad5792927d59a53e-dev",
     "aws_user_files_s3_bucket_region": "us-east-1",
+    "XR": {
+        "scenes": {
+            "homepagescene": {
+                "sceneConfig": {
+                    "sceneId": "0ef6a5810f964ec6bebdee28cde0055e.scene",
+                    "region": "us-east-1",
+                    "projectName": "Drafts-user/ryan_lee",
+                    "url": "https://sumerian.us-east-1.amazonaws.com/20180801/projects/Drafts-user%2Fryan_lee/release/authTokens?sceneId=0ef6a5810f964ec6bebdee28cde0055e.scene"
+                }
+            }
+        }
+    },
     "predictions": {
         "identify": {
             "identifyEntities": {
