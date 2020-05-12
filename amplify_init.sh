@@ -30,10 +30,9 @@ AWSCLOUDFORMATIONCONFIG="{\
 }"
 
 AMPLIFY="{\
-\"projectName\":\"fypdemo\",\
+\"projectName\":\"fypdemo1\",\
 \"envName\":\"dev\",\
-\"defaultEditor\":\"code\"\,\
-\
+\"defaultEditor\":\"code\"\
 }"
 
 FRONTEND="{\
