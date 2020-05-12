@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component,useState,Che } from 'react';
 import aws_exports from '../aws-exports';
 import { withAuthenticator } from 'aws-amplify-react';
 import { Connect } from 'aws-amplify-react';
 import { S3Image } from 'aws-amplify-react';
-import Amplify, { API, graphqlOperation, Storage } from 'aws-amplify';
+
+import Amplify, { API, graphqlOperation, Storage, } from 'aws-amplify';
 import { Divider, Form, Grid, Header, Icon, Input, List, Segment } from 'semantic-ui-react';
 import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom';
 import {v4 as uuid} from 'uuid';
+import * as queries from '../graphql/queries';
 
 Amplify.configure(aws_exports);
 
@@ -53,7 +55,7 @@ const GetAlbum = `query GetAlbum($id: ID!, $nextTokenForPhotos: String) {
     photos(sortDirection: DESC, nextToken: $nextTokenForPhotos) {
       nextToken
       items {
-        thumbnail {
+        fullsize {
           width
           height
           key
@@ -62,6 +64,40 @@ const GetAlbum = `query GetAlbum($id: ID!, $nextTokenForPhotos: String) {
     }
   }
 }
+`;
+
+const DeletePhoto= `mutation DeletePhoto(
+    $input: DeletePhotoInput!
+    $condition: ModelPhotoConditionInput
+  ) {
+    deletePhoto(input: $input, condition: $condition) {
+      id
+      album {
+        id
+        name 
+        owner
+        photos {
+          nextToken
+        }
+        members
+      }
+      bucket
+      fullsize {
+        key
+        width
+        height
+        userName
+      }
+      thumbnail {
+        key
+        width
+        height
+        userName
+      }
+      userName
+      labels
+    }
+  }
 `;
 
 class AlbumsList extends React.Component {
@@ -217,9 +253,13 @@ class AlbumDetails extends Component {
           <Segment basic>
             <AddUsernameToAlbum albumId={this.props.album.id} />
           </Segment>
+          <Segment basic>
+            <getPhotosForLabel />
+          </Segment>
         </Segment.Group>
 
-        <S3ImageUpload albumId={this.props.album.id}/>        
+        <S3ImageUpload albumId={this.props.album.id}/>
+        
         <PhotosList photos={this.props.album.photos.items} />
         {
           this.props.hasMorePhotos && 
@@ -238,69 +278,120 @@ class AlbumDetails extends Component {
 
 
 class S3ImageUpload extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { uploading: false }
-  }
+    constructor(props) {
+        super(props);
+        this.state = { uploading: false }
+    }
+    
+    onChange = async (e) => {
+        const filelist = e.target.files
+        for (let i = 0; i < filelist.length; i++) {
+            const file = filelist[i];
+            const fileName = uuid();
+            this.setState({ uploading: true });
+            const result = await Storage.put(
+                fileName,
+                file,
+                {
+                    customPrefix: { public: 'uploads/' },
+                    metadata: { albumid: this.props.albumId }
+                }
+            );
+            console.log('Uploaded file: ', result);
+            this.setState({ uploading: false });
+        }
+    }
+    
+    
+    render() {
+        return (
+            <div>
+                <Form.Button
+                    onClick={() => document.getElementById('add-image-file-input').click()}
+                    disabled={this.state.uploading}
+                    icon='file image outline'
+                    content={this.state.uploading ? 'Uploading...' : 'Add Image'}
 
-  onChange = async (e) => {
-    const file = e.target.files[0];
-    const fileName = uuid();
-    this.setState({uploading: true});
-    const result = await Storage.put(
-      fileName, 
-      file, 
-      {
-        customPrefix: { public: 'uploads/' },
-        metadata: { albumid: this.props.albumId }
-      }
-    );
-    console.log('Uploaded file: ', result);
-    this.setState({uploading: false});
-  }
-
-  render() {
-    return (
-      <div>
-        <Form.Button
-              onClick={() => document.getElementById('add-image-file-input').click()}
-              disabled={this.state.uploading}
-              icon='file image outline'
-              content={ this.state.uploading ? 'Uploading...' : 'Add Image' }
-        />
-        <input
-          id='add-image-file-input'
-          type="file"
-          accept='image/*'
-          onChange={this.onChange}
-          style={{ display: 'none' }}
-        />
-      </div>
-    );
-  }
+                />
+                <input
+                    id='add-image-file-input'
+                    type="file"
+                    accept='image/*'
+                    onChange={this.onChange}
+                    style={{ display: 'none' }}
+                    multiple
+                />
+            </div>
+        );
+    }
 }
 
+const Search = () => {
+  const [photos, setPhotos] = useState([])
+  const [username, setUsername] = useState('')
+  const [hasResults, setHasResults] = useState(false)
+  const [searched, setSearched] = useState(false)
+
+  const getPhotosForLabel = async (e) => {
+      setPhotos([])
+      const result = await API.graphql(graphqlOperation(queries.listPhotos, { filter: {userName: { contains: username }}}));
+      if (result.data.listPhotos.items.length !== 0) {
+          setHasResults(result.data.listPhotos.items.length > 0)
+          setPhotos(p => p.concat(result.data.listPhotos.items))
+          console.log(result.data.listPhotos.items)
+      }
+      setSearched(true)
+  }
+  const NoResults = () => {
+    return !searched
+      ? ''
+      : <Header as='h4' color='grey'>No photos found matching '{username}'</Header>
+  }
+
+  return (
+      <Segment>
+        <Input
+          type='text'
+          placeholder='Search for photos'
+          icon='search'
+          iconPosition='left'
+          action={{ content: 'Search', onClick: getPhotosForLabel }}
+          name='userName'
+          value={username}
+          onChange={(e) => { setUsername(e.target.value); setSearched(false);} }
+        />
+        {
+            hasResults
+            ? <PhotosList photos={photos} />
+            : <NoResults />
+        }
+      </Segment>
+  );
+}
 
 class PhotosList extends React.Component {
+  state={imagepath:""}
+  
   photoItems() {
     return this.props.photos.map(photo =>
       <S3Image 
-        key={photo.thumbnail.key} 
-        imgKey={photo.thumbnail.key.replace('public/', '')}
+        key={photo.fullsize.key} 
+        imgKey={photo.fullsize.key.replace('public/', '')}
         style={{display: 'inline-block', 'paddingRight': '5px'}}
-      />
+        theme={{ photoImg: { width: '200px', height: '200px' } }}
+        />
     );
   }
-
   render() {
     return (
       <div>
-        <Divider hidden />
         {this.photoItems()}
       </div>
     );
   }
 }
+
+ 
 
 
 class AddUsernameToAlbum extends Component {
@@ -362,7 +453,6 @@ class App extends Component {
           <Grid.Column>
             <Route path="/upload" exact component={NewAlbum}/>
             <Route path="/upload" exact component={AlbumsListLoader}/>
-
             <Route
               path="/albums/:albumId"
               render={ () => <div><NavLink to='/upload'>Back to Albums list</NavLink></div> }
@@ -371,6 +461,7 @@ class App extends Component {
               path="/albums/:albumId"
               render={ props => <AlbumDetailsLoader id={props.match.params.albumId}/> }
             />
+            <Route path="/albums/:albumId" exact component={Search}/>
           </Grid.Column>
         </Grid>
       </Router>
@@ -378,4 +469,4 @@ class App extends Component {
   }
 }
 
-export default withAuthenticator(App, { includeGreetings: true });
+export default App;

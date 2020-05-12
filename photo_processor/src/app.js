@@ -86,7 +86,7 @@ async function getUserNames(bucketName, key) {
    };
    const detectionResult = await Rekognition.searchFacesByImage(params).promise();
    const username = detectionResult.FaceMatches.map(function(detectionResult) {
-    return detectionResult.Face.ExternalImageId ;
+    return detectionResult.Face.ExternalImageId;
     });
    console.log(username)    
    return username;

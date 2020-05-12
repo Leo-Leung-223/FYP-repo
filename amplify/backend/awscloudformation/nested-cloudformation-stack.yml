@@ -274,27 +274,6 @@
 				}
 			}
 		},
-		"xrhomepagescene2": {
-			"Type": "AWS::CloudFormation::Stack",
-			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/fyp-dev-20191021034953-deployment/amplify-cfn-templates/xr/template.json",
-				"Parameters": {
-					"AuthRoleName": {
-						"Ref": "AuthRoleName"
-					},
-					"UnauthRoleName": {
-						"Ref": "UnauthRoleName"
-					},
-					"AuthPolicyName": "sumerian-auth-fypnFACu",
-					"UnauthPolicyName": "sumerian-unauth-fypnFACu",
-					"url": "https://sumerian.us-east-1.amazonaws.com/20180801/projects/Drafts-user%2Fryan_lee/release/authTokens?sceneId=8886b90f1c9d40e1a94e94d6fb276c98.scene",
-					"sceneId": "8886b90f1c9d40e1a94e94d6fb276c98.scene",
-					"region": "us-east-1",
-					"projectName": "Drafts-user/ryan_lee",
-					"env": "dev"
-				}
-			}
-		},
 		"UpdateRolesWithIDPFunction": {
 			"DependsOn": [
 				"AuthRole",

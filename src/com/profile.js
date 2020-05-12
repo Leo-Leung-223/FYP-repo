@@ -59,7 +59,7 @@ class Profile extends Component {
         return (
             <div>
                 
-                <h2>Username:</h2>
+                <h2>Username:{username}</h2>
                 <h2>Upload Profile Picture:</h2>
                 <input
                     type="file"

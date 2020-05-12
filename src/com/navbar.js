@@ -30,8 +30,6 @@ class Navbar extends Component {
         return (
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/workshop/">Workshop</a></li>
-                <li><a href="/booth/">Booth</a></li>
                 <li><a href="/upload/">Photosharing</a></li>
                 <li><a href="/profile/">profile</a></li>
                 {button}
