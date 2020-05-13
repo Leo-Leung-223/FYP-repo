@@ -4,7 +4,6 @@ import "./home";
 import "./booth";
 import "./workshop";
 import "./upload";
-import "./qrcode";
 import "./temp";
 import "./profile";
 import { Auth } from 'aws-amplify';

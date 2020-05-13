@@ -4,7 +4,6 @@ import Workshop from"./com/workshop";
 import Nav from "./com/navbar";
 import Profile from "./com/profile";
 import Upload from "./com/upload";
-import QRcode from "./com/qrcode";
 import lex from "./com/buildlex.js";
 import React,{ useState, Component } from 'react';
 import {BrowserRouter as Router, Route, NavLink, Switch} from 'react-router-dom';
@@ -17,6 +16,7 @@ import Amplify, { API, Auth, graphqlOperation, Storage ,XR} from 'aws-amplify';
 import Predictions, { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
 import aws_exports from './aws-exports';
 import './App.css';
+
 // import { Navbar, BSpan } from '@bootstrap-4-react';
 
 Amplify.configure(aws_exports);
