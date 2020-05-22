@@ -10,42 +10,42 @@ import awsconfig from '../aws-exports';
 import aws_exports from '../aws-exports';
 import '../App.css';
 import Iframe from 'react-iframe'
-import scene1Config from "../sumerian_exports_8886b90f1c9d40e1a94e94d6fb276c98.json";
+//import scene1Config from "../sumerian_exports_8886b90f1c9d40e1a94e94d6fb276c98.json";//
 
 // var AWS = require('aws-sdk/dist/aws-sdk-react-native');
 
 
-Amplify.configure(aws_exports,{
-  ...awsconfig,
-  XR: { // XR category configuration
-    region: 'us-east-1', // Sumerian region
-    scenes: { 
-      "homepagescene2": { // Friendly scene name
-        sceneConfig: scene1Config // Scene configuration from Sumerian publish
-      }
-    }
-  }
-});
+//Amplify.configure(aws_exports,{
+//  ...awsconfig,
+//  XR: { // XR category configuration
+//    region: 'us-east-1', // Sumerian region
+//    scenes: { 
+//      "homepagescene2": { // Friendly scene name
+//        sceneConfig: scene1Config // Scene configuration from Sumerian publish
+//      }
+//    }
+//  }
+//});
+//
 
 
-
-class Scene extends React.Component{
-  async loadAndStartScene() {
-    await XR.loadScene("homepagescene2", "sumerian-scene-dom-id");
-    XR.start("homepagescene2");
-    XR.onSceneEvent('homepagescene2', 'AudioEnabled', () => console.log ('Audio is enable') );
-;}
-    
-    render(){
-      return(
-        <div id="sumerian-scene-dom-id">
-        <div style={ { height: '90vH',width:'65%'} }>
-        <SumerianScene sceneName="homepagescene2"/>
-        </div>
-        </div>
-            )
-    }
-}
+//class Scene extends React.Component{
+//  async loadAndStartScene() {
+//    await XR.loadScene("homepagescene2", "sumerian-scene-dom-id");
+//    XR.start("homepagescene2");
+//    XR.onSceneEvent('homepagescene2', 'AudioEnabled', () => console.log ('Audio is enable') );
+//;}
+//    
+//    render(){
+//      return(
+//        <div id="sumerian-scene-dom-id">
+//        <div style={ { height: '90vH',width:'65%'} }>
+//        <SumerianScene sceneName="homepagescene2"/>
+//        </div>
+//        </div>
+//            )
+//    }
+//}
 
 class Scenemanual extends React.Component{
   
@@ -84,8 +84,8 @@ class Home extends Component {
             <div className="row">
             
             <div className="col-md-12">
-            <Scene/>
-                            <Scenemanual/>
+            //<Scene/>
+             //               <Scenemanual/>
 
             </div>
 
