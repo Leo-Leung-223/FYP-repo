@@ -1,10 +1,7 @@
 import React from 'react';
 import "../App.css";
 import "./home";
-import "./booth";
-import "./workshop";
 import "./upload";
-import "./temp";
 import "./profile";
 import { Auth } from 'aws-amplify';
 import { Component } from 'react';
