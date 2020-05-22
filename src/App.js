@@ -33,8 +33,6 @@ class App extends Component {
       <Router>
         <Nav/>
         <Route exact path='/' component={Home} />
-        <Route path='/booth' component={Booth} />
-        <Route path='/workshop' component={Workshop} />
         <Route path='/upload' component={Upload} />
         <Route path='/profile' component={Profile} />
         <Route path='/buildlex' component={lex} />
