@@ -84,9 +84,7 @@ class Home extends Component {
             <div className="row">
             
             <div className="col-md-12">
-            //<Scene/>
-             //               <Scenemanual/>
-
+  
             </div>
 
             </div>
