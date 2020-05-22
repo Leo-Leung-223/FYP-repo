@@ -1,6 +1,4 @@
 import Home from"./com/home";
-import Booth from"./com/booth";
-import Workshop from"./com/workshop";
 import Nav from "./com/navbar";
 import Profile from "./com/profile";
 import Upload from "./com/upload";
