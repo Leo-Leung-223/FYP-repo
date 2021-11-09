@@ -41,6 +41,10 @@ PROVIDERS="{\
 \"awscloudformation\":$AWSCLOUDFORMATIONCONFIG\
 }"
 
+curl -sL https://aws-amplify.github.io/amplify-cli/install | zsh && $SHELL
+
+
+
 # Amplify init
 amplify init \
 --amplify $AMPLIFY \
